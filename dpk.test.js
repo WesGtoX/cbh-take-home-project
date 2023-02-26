@@ -1,4 +1,30 @@
-const { deterministicPartitionKey } = require("./dpk");
+const { deterministicPartitionKey, createStringHash } = require("./dpk");
+
+describe("createStringHash", () => {
+  it("Returns a hash string of length 128 if the input is a string", () => {
+    stringHash = createStringHash("some string");
+    expect(typeof stringHash).toBe("string");
+    expect(stringHash.length).toBe(128);
+  });
+
+  it("Returns a hash string of length 128 if input is an integer", () => {
+    stringHash = createStringHash(123456);
+    expect(typeof stringHash).toBe("string");
+    expect(stringHash.length).toBe(128);
+  });
+
+  it("Returns a hash string of length 128 if input is a boolean", () => {
+    stringHash = createStringHash(false);
+    expect(typeof stringHash).toBe("string");
+    expect(stringHash.length).toBe(128);
+  });
+
+  it("Returns a hash string of length 128 if input is an object", () => {
+    stringHash = createStringHash({ partitionKey: "0123" });
+    expect(typeof stringHash).toBe("string");
+    expect(stringHash.length).toBe(128);
+  });
+});
 
 describe("deterministicPartitionKey", () => {
   it("Returns the literal '0' when given no input", () => {
